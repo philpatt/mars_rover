@@ -5,4 +5,3 @@ class MarsPlateau(object):
         self.x = x
         self.y = y
         self.taken = []
-        print('mars plateau:',self.x, self.y)

@@ -6,9 +6,19 @@ def intial_rover_position(landingArea):
     rover_input = input("Please enter rover's starting position: ").split(' ')
     rover = Rover(rover_input, landingArea)
 
-def land_rover(landingArea):
+def land_rover(rover,landingArea):
     # input directions for the rover to land 
-    directions_input = input("Please enter directions to land rover:\nOnly use 'L','R','M' ").split(' ')
+    directions_input = input("Please enter a sequence of directions:\nOnly use 'L','R','M' ").split(' ').upper
+
+def move(instructions,rover):
+    # move the rover
+    for instruction in instructions:
+        # rover turn left
+        # rover turn right
+        # rover move forward
+        
+        
+
 
 
 def main():
