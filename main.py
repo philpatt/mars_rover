@@ -7,16 +7,11 @@ def navigate(instructions,rover,landingArea):
     # if rover moves out of bounds, sent rover back to intial position and try again
     try:
         for instruction in instructions:
-            print("indv instruction: " + instruction)
             if instruction == "L":
-                print("TurnLeft")                
                 rover.turnLeft()
-
-            elif instruction == "R":
-                print("TurnRight")                                
+            elif instruction == "R":  
                 rover.turnRight()
-            elif instruction == "M":
-                print("MoveForward")                                
+            elif instruction == "M":     
                 rover.moveForward(landingArea)
             else:
                 raise ValueError('Incorrect directional value')
@@ -39,7 +34,6 @@ def get_intial_rover_position(landingArea):
             continue
 
         if rover is not None:
-            print("rover.initial:", rover.initial)
             return rover
 
 def user_input_check(userInput, landingArea):
@@ -50,17 +44,12 @@ def user_input_check(userInput, landingArea):
         show_landed_rovers(landingArea)
     return userInput
 
-def rover_position_check(rover,landingArea):
-    for rover in landingArea.taken:
-        print('### rovers',rover)
-
 
 def land_rover(rover,landingArea):
     # input directions for the rover to land 
     while True:
         moved = False
         try:
-            print('Current Rover Position:',rover.get_current_position())
             commands = user_input_check(input("\n--------------\nPlease enter a sequence of commands:\nOnly use 'L','R','M' or 'end' to terminate\n--------------\n=> "),landingArea).upper()
             if 'REPORT' not in commands:
                 navigate(commands, rover, landingArea)

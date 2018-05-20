@@ -27,12 +27,10 @@ class Rover(object):
         self.direction = self.initial[2]
 
     def xPositionCheck(self, landingArea):
-        print('###self.x',self.x)
         if (self.x < 0 or self.x > landingArea.x):
             self.rover_to_intial_position()            
             raise ValueError('rover out of landing area, going back to initial position.\n Try again!')
         else:
-            print('x coordinate checks out')
             return True            
 
     def yPositionCheck(self, landingArea):
@@ -40,7 +38,6 @@ class Rover(object):
             self.rover_to_intial_position()
             raise ValueError('rover out of landing area, go back to intial position.\n Try again!')
         else:
-            print('y coordinate checks out')
             return True
 
     def directionPositionCheck(self, landingArea):
@@ -48,7 +45,6 @@ class Rover(object):
             self.rover_to_intial_position()            
             raise ValueError('incorrect direction value, going back to initial position.\n Try again!')
         else:
-            print('directional checks out')
             return True
    
 
@@ -56,39 +52,32 @@ class Rover(object):
         # rover turn right:
         if directions.index(self.direction) == 3:
             self.direction = directions[0]
-            print("self.direction:",self.direction)
             
         else:
             self.direction = directions[directions.index(self.direction) + 1]
-            print("self.direction:",self.direction)
             
 
     def turnLeft(self):
         # rover turn left
         if directions.index(self.direction) == 0:
             self.direction = directions[3]
-            print("self.direction:",self.direction)
         else:
             self.direction = directions[directions.index(self.direction) - 1]
-            print("self.direction:",self.direction)
 
     def moveForward(self, landingArea):
         #rover move forwards
         if self.direction == "N":
-            self.y = self.y + 1
-            print("self.y:",self.y)            
+            self.y = self.y + 1   
         elif self.direction == "S":
-            self.y = self.y - 1
-            print("self.y:",self.y)                                  
+            self.y = self.y - 1                         
         elif self.direction == "E":
             self.x = self.x + 1
-            print("self.x:",self.x)            
+         
         elif self.direction == "W":
             self.x = self.x - 1
-            print("self.x:",self.x) 
         else:
             self.rover_to_intial_position()
-            print('Incorrect directional value, Rover sent back to initial position')               
+            raise ValueError('ERROR: Incorrect directional value, Rover sent back to initial position')               
         for area in self.landingArea.taken:
             if self.get_current_position() == (area[0], area[1]):
                 self.rover_to_intial_position()                
