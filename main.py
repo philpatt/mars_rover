@@ -14,23 +14,25 @@ def get_intial_rover_position(landingArea):
 
 def land_rover(rover,landingArea):
     # input directions for the rover to land 
-    commands_input = input("Please enter a sequence of commandss:\nOnly use 'L','R','M' ").split(' ').upper
+    commands_input = input("Please enter a sequence of commands:\nOnly use 'L','R','M' ").split()
+    navigate(commands_input, landingArea)
+    mars.taken.append((rover.x, rover.y, rover.direction))
 
-def move(commands,rover):
-    # move the rover
-    for command in commands:
-
-        if command == "L":
-            rover.turnLeft()
-        elif command = "R":
-            rover.turnRight()
-        else:
-            rover.moveForward()
-
-        
-        
-
-
+def navigate(commands,rover):
+    # use commands to navigate the rover to land
+    # if rover moves out of bounds, sent rover back to intial position and try again
+    try:
+        for command in commands:
+            if command == "L":
+                rover.turnLeft()
+            elif command = "R":
+                rover.turnRight()
+            else:
+                rover.moveForward()
+    except Exception as err:
+        commands = input("Try another command sequence! ")
+        rover.rover_to_intial_position()
+        move(commands, rover)
 
 def main():
     
