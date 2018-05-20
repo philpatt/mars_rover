@@ -1,16 +1,13 @@
 from Mars import MarsLandingArea
 from Rover import Rover, directions
+import sys
 
-
-
-
-def navigate(instructions,rover, landingArea):
+def navigate(instructions,rover,landingArea):
     # use commands to navigate the rover to lan
     # if rover moves out of bounds, sent rover back to intial position and try again
     try:
-        print("instructions arrive at navigate")
         for instruction in instructions:
-            print("indv instruction: "+ instruction)
+            print("indv instruction: " + instruction)
             if instruction == "L":
                 print("TurnLeft")                
                 rover.turnLeft()
@@ -18,26 +15,26 @@ def navigate(instructions,rover, landingArea):
             elif instruction == "R":
                 print("TurnRight")                                
                 rover.turnRight()
-            else:
+            elif instruction == "M":
                 print("MoveForward")                                
                 rover.moveForward(landingArea)
+            else:
+                raise ValueError('Incorrect directional value')
     except Exception as err:
-        print("Nav ERROR: " + err)
-        commands = input("Error: " + err + ". Try another command sequence! ")
-        rover.rover_to_intial_position()
-        navigate(commands, rover)
+        raise err
+
+
 
 def get_intial_rover_position(landingArea):
     # create a rover by inputing an initial position
     while True:
         rover = None
-        rover_input = input("Please enter rover's starting position and direction: ").split()
-        print('rover input:',rover_input)
-        print("landingArea: x-", landingArea.x,"y-", landingArea.y)
-        
+        rover_input = user_input_check(input("\n--------------\n** Enter a Rover's starting position and direction.\n* Or enter 'report' to get Rover Report.\n* Or enter: 'end' to terminate:\n--------------\n=> "), landingArea).split()
+
         try:
-            rover = Rover(int(rover_input[0]), int(rover_input[1]), rover_input[2],landingArea)
-        except Error as err:
+            if 'report' not in rover_input:
+                rover = Rover(int(rover_input[0]), int(rover_input[1]), rover_input[2],landingArea)
+        except Exception as err:
             print(err)
             continue
 
@@ -45,47 +42,76 @@ def get_intial_rover_position(landingArea):
             print("rover.initial:", rover.initial)
             return rover
 
+def user_input_check(userInput, landingArea):
+    if 'end'.upper() in userInput.upper():
+        print('\n========================\n### End Program ###\n========================\n')                
+        sys.exit()
+    elif 'report' in userInput.lower():
+        show_landed_rovers(landingArea)
+    return userInput
+
+def rover_position_check(rover,landingArea):
+    for rover in landingArea.taken:
+        print('### rovers',rover)
+
+
 def land_rover(rover,landingArea):
     # input directions for the rover to land 
-
     while True:
         moved = False
         try:
-            commands = input("Please enter a sequence of commands:\nOnly use 'L','R','M' ").upper()
-            print('these are the commands:',commands)
-            navigate(commands, rover, landingArea)
-            print('finish navigate')
-            landingArea.taken.append((rover.x, rover.y, rover.direction))
-            moved = True
+            print('Current Rover Position:',rover.get_current_position())
+            commands = user_input_check(input("\n--------------\nPlease enter a sequence of commands:\nOnly use 'L','R','M' or 'end' to terminate\n--------------\n=> "),landingArea).upper()
+            if 'REPORT' not in commands:
+                navigate(commands, rover, landingArea)
+                
+                if (rover.yPositionCheck(landingArea) and rover.xPositionCheck(landingArea) and rover.directionPositionCheck(landingArea)):
+                    landingArea.taken.append([rover.x, rover.y, rover.direction])
+                moved = True
         except Exception as err:
-            print('ERROR: ',err)
-            continue
+            print(err)
+            # continue
         if moved:
-            print('moved!')
+            # for i in range(0,len(landingArea.taken)):
+            #     if rover.get_current_position() == (landingArea.taken[i][0],landingArea.taken[i][0]):
+            #         moved = False
+                
+            print('Rover Landing Success!')
+            show_landed_rovers(landingArea)
             return
             
 def show_landed_rovers(landingArea):
-    print('--------------')
+    print('-----------------------\n ** Rover Report ** \n-----------------------\nMars landing area:\n'+ str(landingArea.x) + ' x ' + str(landingArea.y)+'\n')
+    
     for rover in landingArea.taken:
-        print ("{},{},{}".format(rover[0],rover[1],rover[2]))
-    SystemExit
+        print ("{} {} {}".format(rover[0],rover[1],rover[2]))
+    print('-----------------------')
+
+        
+    
 
 
 def main():
     
     # Main functionality of program
-
+    print('\n================================\n START MARS ROVER CHALLENGE \n================================\n')
     end_loop = False
     while (not end_loop):
-        landing_area_input = input('Please enter size of the landing plateau, separated by a space: ').split(' ')
-        landingArea = MarsLandingArea(int(landing_area_input[0]), int(landing_area_input[1]))
-        end_loop = True
+        landing_area_input = input('** Please enter two numbers, separated by a space, to determine the dimensions for the Mars landing Area:\n--------------\n => ').split(' ')
+        if len(landing_area_input) == 2 and landing_area_input[0].isdigit() and landing_area_input[1].isdigit():
+            landingArea = MarsLandingArea(int(landing_area_input[0]), int(landing_area_input[1]))
+            end_loop = True
+        else:
+            print('Please enter valid size of landing plateau')
 
     while True:
         rover = get_intial_rover_position(landingArea) # Create rover
-
-        land_rover(rover, landingArea) # Once rover is created => try to land it based on the given directions
-        show_landed_rovers(landingArea)
+        land_rover(rover, landingArea) # land Rover based on given instructions
+    
+    # print("\n=============================")
+    # show_landed_rovers(landingArea)
+    # print("\n=============================")
+    
 
 
 if __name__ == "__main__":
