@@ -58,7 +58,6 @@ class Rover(object):
                 print('Error: Position taken, rover sent back to intial position! Try again!')
             self.rover_to_intial_position()
 
-
     
 
 
