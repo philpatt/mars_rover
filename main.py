@@ -104,7 +104,7 @@ def main():
             print('Please enter valid dimensions for landing plateau')
 
     # Once Landing Area dimensions are determined, the Landing Area is passed to the where the Rover's intial position is, and assigned the created rover.
-    # while True:
+    while True:
         rover = get_intial_rover_position(landingArea) # Create Rover and initial position
 
     # After initial Rover position is set, acquire sequence of commands to attempt to land Rover. 
