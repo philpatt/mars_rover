@@ -1,6 +1,3 @@
-
-
-
 directions = ("N", "E", "S", "W")
 
 class Rover(object):
@@ -29,21 +26,21 @@ class Rover(object):
     def xPositionCheck(self, landingArea):
         if (self.x < 0 or self.x > landingArea.x):
             self.rover_to_intial_position()            
-            raise ValueError('rover out of landing area, going back to initial position.\n Try again!')
+            raise ValueError('ERRor: Rover out of landing area, going back to initial position.\n Try again!')
         else:
             return True            
 
     def yPositionCheck(self, landingArea):
         if (self.y < 0 or self.y > landingArea.y):
             self.rover_to_intial_position()
-            raise ValueError('rover out of landing area, go back to intial position.\n Try again!')
+            raise ValueError('Errpr: Rover out of landing area, go back to intial position.\n Try again!')
         else:
             return True
 
     def directionPositionCheck(self, landingArea):
         if self.direction.upper() not in directions:
             self.rover_to_intial_position()            
-            raise ValueError('incorrect direction value, going back to initial position.\n Try again!')
+            raise ValueError('Error: Incorrect direction value, going back to initial position.\n Try again!')
         else:
             return True
    
@@ -81,7 +78,7 @@ class Rover(object):
         for area in self.landingArea.taken:
             if self.get_current_position() == (area[0], area[1]):
                 self.rover_to_intial_position()                
-                raise ValueError('ERROR: Position taken, Rover sent back to intial position! Try again!')
+                raise ValueError('ERROR: Position taken, Rover sent back to intial position!\n Try again!')
 
 
 
