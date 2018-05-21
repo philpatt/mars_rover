@@ -74,14 +74,14 @@ def land_rover(rover,landingArea):
             print(err)
 
         if moved:                
-            print('Rover Landing Success!')
+            print('\n------------------------------------\n~~~~~~ Rover Landing Success! ~~~~~~\n------------------------------------')
             show_landed_rovers(landingArea)
             return
             
 def show_landed_rovers(landingArea):
     # Here is where we present the Rover Report
     # The Rover Report prints the taken Landing Area list, it also is shown after each succesful landing
-    print('-----------------------\n ** Rover Report ** \n-----------------------\nMars landing area:\n'+ str(landingArea.x) + ' x ' + str(landingArea.y)+'\n')
+    print('\n-----------------------\n ** Rover Report ** \n-----------------------\nMars landing area:\n'+ str(landingArea.x) + ' x ' + str(landingArea.y)+'\n')
     
     for rover in landingArea.taken:
         print ("{} {} {}".format(rover[0],rover[1],rover[2]))
@@ -93,10 +93,10 @@ def main():
 
     # This where the program is initiated.
     # A loop is used to allow the input to not terminate until a Landing Object is created
-    print('\n================================\n MARS ROVER TECH CHALLENGE \n================================\n')
+    print('\n==================================\n ~~ MARS ROVER TECH CHALLENGE ~~ \n==================================')
     end_loop = False
     while (not end_loop):
-        landing_area_input = input('** Please enter two numbers, separated by a space, to determine the dimensions for the Mars landing Area:\n--------------\n => ').split(' ')
+        landing_area_input = input('\n--------------\n** Please enter two numbers, separated by a space, to determine the dimensions for the Mars landing Area:\n--------------\n => ').split(' ')
         if len(landing_area_input) == 2 and landing_area_input[0].isdigit() and landing_area_input[1].isdigit():
             landingArea = MarsLandingArea(int(landing_area_input[0]), int(landing_area_input[1]))
             end_loop = True

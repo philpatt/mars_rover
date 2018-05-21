@@ -30,6 +30,7 @@
  * To begin Run `python3 main.py` in console
  * Next, you will be prompted to enter Landing Area dimensions:
  ```
+ --------------
  ** Please enter two numbers, separated by a space, to determine the`
  dimensions for the Mars landing Area:
 --------------
