@@ -1,5 +1,5 @@
 from Mars import MarsLandingArea
-from Rover import Rover, directions
+from Rover import Rover
 import sys
 
 def navigate(commands,rover,landingArea):
