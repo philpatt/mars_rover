@@ -12,65 +12,33 @@
   * The rest of the input is information pertaining to the rovers that have been deployed. Each rover has two lines of input. The first line gives the rover's position, and the second line is a series of instructions telling the rover how to explore the plateau.
   * The position is made up of two integers and a letter separated by spaces, corresponding to the x and y co-ordinates and the rover's orientation.
   * Each rover will be finished sequentially, which means that the second rover won't start to move until the first one has finished moving.
-### *Output*:
-  * The output for each rover should be its final co-ordinates and heading.
-
- #### *Test Input*
+   #### *Test Input*
   * 5 5 (Landing Area)
   * 1 2 N (First Rover initial position)
   * LMLMLMLMM (Command sequence to land First Rover)
   * 3 3 E (Second Rover initial position)
   * MMRMMRMRRM (Command sequence to land second Rover)
+
+### *Output*:
+  * The output for each rover should be its final co-ordinates and heading.
  #### *Expected Output*
   * 1 3 N (First Rover final position coordinates and direction)
   * 5 1 E (Second Rover final position coordinates and direction)
-  
-## User Stories
 
-As a user, I want to be able to:
-  * Search through all of the national parks
-  * View more details about each park
-  * Save the park to my profile if it is one that interests me
-  * Also, delete anyone 
+## How to Run program
+ * If python is not installed, run `brew install python3` in your console
+ * To begin Run `python3 main.py` in console
+ * Next, you will be prompted to enter Landing Area dimensions
+ ```
+ ** Please enter two numbers, separated by a space, to determine the`
+ dimensions for the Mars landing Area:
+--------------
+ =>
+ ```
 
-## Aproach 
-
-### *Sprint 1*
-* Wireframe application using draw.io
-![trello-1](/public/img/readme-img/wireframe-1.png)  
-
-* Setup Trello Board
-![trello-1](/public/img/readme-img/trello-1.png)
-
-* Add and populate gitignore file
-* Decide on technologies
-* Create database - models/associations
-* Basic folder structure
-* HTML for index.js filled out
-* Stub out routes
-* Empty ReadMe  
-
-### *Sprint 2* 
-
-* Add Basic styling
-* Reach MVP functionality
-  * Save api information to db
-* Deploy to heroku
-
-* Debug 
-![trello-1](/public/img/readme-img/trello-3.png)  
-
-### *Sprint 3*
-
-* Finishing Touches
-* Advanced Styling
-* Fill out ReadMe
-* Begin strech goals
-![trello-4](/public/img/readme-img/trello-4.png)
 
 ## Steps to Setting Up
 * 
-
 ## Backlog
 * Give users ability to comment on the different parks
 * Allow users to have a more customized profile page (add profile picture)
