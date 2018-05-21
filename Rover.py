@@ -15,7 +15,6 @@ class Rover(object):
         if (self.y < 0 or self.y > landingArea.y): # 
             raise ValueError('Rover out of landing area, try again!')
             return
-        
         self.direction = direction
         self.landingArea = landingArea
         self.initial = (self.x, self.y, self.direction)
@@ -61,7 +60,9 @@ class Rover(object):
    
 
     def turnRight(self):
-        # rover turn right:
+        # Turn Right logic for the Rover
+        # if the Rovers direction matches the compasses direction at position 3 ('W' - West), then change the Rover's direction to "N"-North(compass[0]).
+        # if the Rover's direction is not 'W'-West, then change the Rover's Direction to the compass direction that is associated with the Rover's direction and increase by 1.
         if compass.index(self.direction) == 3:
             self.direction = compass[0]
             
@@ -70,14 +71,17 @@ class Rover(object):
             
 
     def turnLeft(self):
-        # rover turn left
+        # Turn Left logic for the Rover (opposite of right turn logic)
+        # if the Rovers direction matches the compasses direction at position 0 ('N' - North), then change the Rover's direction to "W"-West(compass[3]).
+        # if the Rover's direction is not 'N'-North, then change the Rover's Direction to the compass direction that is associated with the Rover's direction and decrease by 1.
+
         if compass.index(self.direction) == 0:
             self.direction = compass[3]
         else:
             self.direction = compass[compass.index(self.direction) - 1]
-
     def moveForward(self, landingArea):
-        #rover move forwards
+        # Move Forward
+
         if self.direction == "N":
             self.y = self.y + 1   
         elif self.direction == "S":
