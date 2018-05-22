@@ -1,5 +1,5 @@
 from Mars import CreateMarsLandingArea
-from Rover import Rover
+from Rover import CreateRover, compass, navigationCommands
 import sys
 
 def main():
@@ -52,18 +52,25 @@ def getIntialRoverPositionInput(landingArea):
     # Again, a loop is run to ensure that acquiring user input does not terminate the program until all rovers are created and landed.
 
     while True:
-        roverPositionPrompt = "\n--------------\n** Enter a Rover's starting position and direction.\n* Or enter 'report' to get Rover Report.\n* Or enter: 'end' to terminate:\n--------------\n=> "
+        roverPositionPrompt = "\n--------------\n** Enter a Rover's starting position and direction, separated by spaces.\n* Or enter 'report' to get Rover Report.\n* Or enter: 'end' to terminate:\n--------------\n=> "
 
-        roverInput = userInputCheck(input(roverPositionPrompt),landingArea).split()
+        roverInput = userInputCheck(input(roverPositionPrompt),landingArea).split(' ')
         try:
-            if 'report' not in roverInput:
-                rover = Rover(
-                    int(roverInput[0]), int(roverInput[1]),
-                    roverInput[2].upper(), landingArea)
+            if 'report' not in roverInput and isInitialRoverPositionInputValid(roverInput):
+                rover = CreateRover(int(roverInput[0]), int(roverInput[1]), roverInput[2].upper(),landingArea)
                 return rover
         except Exception as err:
             print(err)
             continue
+
+
+def isInitialRoverPositionInputValid(roverInput):
+    if len(roverInput) == 3 and roverInput[0].isdigit(
+    ) and roverInput[1].isdigit() and roverInput[2].upper() in compass:
+        return True
+    else:
+        print('ERROR: Wrong Values. Try Again!')
+        return False
 
 
 def userInputCheck(userInput, landingArea):
@@ -79,23 +86,20 @@ def userInputCheck(userInput, landingArea):
 
 def landRover(rover,landingArea):
     # Using only a sequence of L, M ,R. The user gives commands for the Rover to take in and see if it can land or not.
-    # If there is a Rover already occupying the attempted landing position, the rover will alert an Error Message and return to its initail position.
-    # If the Rover is ordered to try and land outside of the Landing Area, it will alert an Error Message and return to its initial position.
 
     moved = False
     commandSequencePrompt = "\n--------------\nPlease enter a sequence of commands:\nOnly use 'L','R','M' or 'end' to terminate\n--------------\n=> "
     try:
         commands = userInputCheck(input(commandSequencePrompt), landingArea).upper()
-        if 'REPORT' not in commands:
-            navigate(commands, rover, landingArea) # => Here is all the knowledge for the Rover to compute the sequence of commands
 
+        if 'REPORT' not in commands and isCommandSequenceValid(commands):
+            navigate(commands, rover, landingArea)
             # If commands are determined valid and the rover object is updated, another check comes to determine
             if (rover.yPositionCheck(landingArea) and rover.xPositionCheck(landingArea) and rover.directionPositionCheck(landingArea)):# Here is where the rover checks if the landing coordinates are acceptable
                 landingArea.taken.append([rover.x, rover.y, rover.direction])
                 moved = True
     except Exception as err:
         print(err)
-
     if moved:
         print('\n------------------------------------')
         print('~~~~~~ Rover Landing Success! ~~~~~~')
@@ -103,6 +107,17 @@ def landRover(rover,landingArea):
 
         showRoverReport(landingArea)
         return
+
+def isCommandSequenceValid(commands):
+    for command in commands:
+        if command not in navigationCommands:
+            print('\n----------------------------------------')            
+            print("Command Sequence Value Error:")
+            print(command,": not available in Navigation Commands.")
+            print("Rover Crashed! Attempt New Rover!")
+            print('----------------------------------------') 
+            return False
+    return True
 
 def navigate(commands, rover, landingArea):
     # This is the knowledge the Rover uses to read its commands.
@@ -113,11 +128,11 @@ def navigate(commands, rover, landingArea):
     # If space is NOT occupied, then the rover Object is updated and moves on in the land_rover() process.
     try:
         for command in commands:
-            if command == "L":
+            if command == navigationCommands[0]:
                 rover.turnLeft()  # => see Rover.py for more details
-            elif command == "R":
+            elif command == navigationCommands[1]:
                 rover.turnRight()  # => see Rover.py for more details
-            elif command == "M":
+            elif command == navigationCommands[2]:
                 rover.moveForward(
                     landingArea)  # => see Rover.py for more details
             else:
@@ -127,7 +142,7 @@ def navigate(commands, rover, landingArea):
 
 def showRoverReport(landingArea):
     # The Rover Report prints the taken Landing Area list, it also is shown after each succesful landing
-    print('-----------------------')
+    print('\n-----------------------')
     print('*~* Rover Report *~*')
     print('-----------------------')
     print('Landing Area: ' + str(landingArea.x) + ' x ' + str(landingArea.y))

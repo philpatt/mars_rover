@@ -1,7 +1,8 @@
 #Every rover will have access to the compass. The rover will use this compass to turn left, or turn right based of what direction it is already facing.
-compass = ("N", "E", "S", "W")
+compass = ["N", "E", "S", "W"]
+navigationCommands = ["L","R","M"]
 
-class Rover(object):
+class CreateRover(object):
     #Each Rover that is created will have access to all of these functions and the created Landing Area
     # The Rover will always have an initial position that consists of it starting (x,y,direction).
     # While the (x,y,direction) may change, the Landing Area and initial position will remain constant.
