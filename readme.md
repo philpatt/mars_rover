@@ -2,16 +2,6 @@
   ###Prompt: 
   [Mars Rover Tech Challenge Prompt](https://code.google.com/archive/p/marsrovertechchallenge/)  
 
-  ### *Test Input*
-  * 5 5 (Landing Area)
-  * 1 2 N (First Rover initial position)
-  * LMLMLMLMM (Command sequence to land First Rover)
-  * 3 3 E (Second Rover initial position)
-  * MMRMMRMRRM (Command sequence to land second Rover)
-  ### *Expected Output*
-  * 1 3 N (First Rover final position coordinates and direction)
-  * 5 1 E (Second Rover final position coordinates and direction)
-
   ## Install Python
   * run `brew install python3` in your console
 
