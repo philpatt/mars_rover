@@ -1,6 +1,8 @@
 from Main import *
 import unittest
 
+# The main goal for these tests is to make sure the input validations are working correctly.
+
 class MainTests(unittest.TestCase):
 
     def testIsLandingAreaInputValid(self):
