@@ -3,7 +3,7 @@ from Rover import CreateRover, compass, navigationCommands
 import sys
 
 def main():
-    # All
+    # 
     print('===============================')
     print('~~ MARS ROVER TECH CHALLENGE ~~')
     print('===============================')
@@ -13,6 +13,7 @@ def main():
 
     #2 - Acauire Rovers to land
     acquiringAndLandingRovers = True
+
     while acquiringAndLandingRovers:
         # Instantiate Rover 
         rover = getIntialRoverPositionInput(landingArea)
@@ -21,6 +22,7 @@ def main():
 
 
 def getLandingAreaInput():
+    # 
     landingAreaDimensionsPrompt = '\n--------------\n** Please enter two numbers, separated by a space, to determine the dimensions for the Mars landing Area:\n--------------\n => '
 
     isCreateLandingAreaRunning = True

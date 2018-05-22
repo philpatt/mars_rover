@@ -56,9 +56,9 @@ class CreateRover(object):
             return True
 
     def turnRight(self):
-        # Turn Right logic for the Rover
-        # if the Rovers direction matches the compasses direction at position 3 ('W' - West), then change the Rover's direction to "N"-North(compass[0]).
-        # if the Rover's direction is not 'W'-West, then change the Rover's Direction to the compass direction that is associated with the Rover's direction and increase by 1.
+        # If the Rover's direction matches the compass' direction at position 3 ('W' - West), then change the Rover's direction to "N"-North(compass[0]).
+        # If the Rover's direction is not 'W'-West, then change the Rover's Direction to the compass direction that is associated with the Rover's direction and increase by 1.
+
         if compass.index(self.direction) == 3:
             self.direction = compass[0]
 
@@ -67,7 +67,6 @@ class CreateRover(object):
 
 
     def turnLeft(self):
-        # Turn Left logic for the Rover (opposite of right turn logic)
         # if the Rovers direction matches the compasses direction at position 0 ('N' - North), then change the Rover's direction to "W"-West(compass[3]).
         # if the Rover's direction is not 'N'-North, then change the Rover's Direction to the compass direction that is associated with the Rover's direction and decrease by 1.
 
@@ -84,12 +83,12 @@ class CreateRover(object):
             self.y = self.y - 1
         elif self.direction == "E":
             self.x = self.x + 1
-
         elif self.direction == "W":
             self.x = self.x - 1
         else:
             # self.rover_to_intial_position()
             raise ValueError('ERROR: Incorrect directional value, Rover sent back to initial position')
+
         for area in self.landingArea.taken:
             if self.getCurrentPosition() == (area[0], area[1]):
                 raise ValueError('ERROR: Position taken!\n Try again!')
