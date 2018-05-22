@@ -1,10 +1,16 @@
-
-from main import *
+from Main import *
 import unittest
 
-class MainTest(unittest.TestCase):
-        def test_landing_area_input(self):
-                self.assertTrue(landingArea, (5, 5))
+class MainTests(unittest.TestCase):
+
+    def testIsLandingAreaInputValid(self):
+        landingAreaInputTrue = '25', '25'
+        self.assertTrue(isLandingAreaInputValid(landingAreaInputTrue), True)
+
+        landingAreaInputFalse = '25', '25', '25'
+        self.assertFalse(isLandingAreaInputValid(landingAreaInputFalse), False)
+
+    
 
 if __name__ == "__main__":
     unittest.main()

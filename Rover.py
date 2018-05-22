@@ -12,7 +12,7 @@ class Rover(object):
             raise ValueError('Rover out of landing area, try again!')
             return
         self.y = y
-        if (self.y < 0 or self.y > landingArea.y): # 
+        if (self.y < 0 or self.y > landingArea.y): #
             raise ValueError('Rover out of landing area, try again!')
             return
         self.direction = direction
@@ -33,31 +33,30 @@ class Rover(object):
         # This function is used during navigation. After the Rover uses navigate to turn left, turn right, and move forward, this checks the x value to make sure it is within the landing area dimensions.
         # If is not a valid value, then the rover is returned to its initial position and a Value Error is sent.
         if (self.x < 0 or self.x > landingArea.x):
-            self.rover_to_intial_position()            
-            raise ValueError('ERRor: Rover out of landing area, going back to initial position.\n Try again!')
+            self.rover_to_intial_position()
+            raise ValueError('\nRover out of landing area, and lost in space!\n Try another Rover!')
         else:
-            return True            
+            return True
 
     def yPositionCheck(self, landingArea):
         # This function is used during navigation. After the Rover uses navigate to turn left, turn right, and move forward, this checks the y value to make sure it is within the landing area dimensions.
         # If is not a valid value, then the rover is returned to its initial position and a Value Error is sent.
-        
+
         if (self.y < 0 or self.y > landingArea.y):
             self.rover_to_intial_position()
-            raise ValueError('Errpr: Rover out of landing area, go back to intial position.\n Try again!')
+            raise ValueError('\nRover out of landing area, and lost in space!\n Try another Rover!')
         else:
             return True
 
     def directionPositionCheck(self, landingArea):
-        # This function is used during navigation. After the Rover uses navigate to turn left, turn right, and move forward, this checks the directional value to make sure it is a direciton that the Compass .  
+        # This function is used during navigation. After the Rover uses navigate to turn left, turn right, and move forward, this checks the directional value to make sure it is a direciton that the Compass .
         # If is not a valid value, then the rover is returned to its initial position and a Value Error is sent.
-        
+
         if self.direction.upper() not in compass:
-            self.rover_to_intial_position()            
+            self.rover_to_intial_position()
             raise ValueError('Error: Incorrect direction value, going back to initial position.\n Try again!')
         else:
             return True
-   
 
     def turnRight(self):
         # Turn Right logic for the Rover
@@ -65,10 +64,10 @@ class Rover(object):
         # if the Rover's direction is not 'W'-West, then change the Rover's Direction to the compass direction that is associated with the Rover's direction and increase by 1.
         if compass.index(self.direction) == 3:
             self.direction = compass[0]
-            
+
         else:
             self.direction = compass[compass.index(self.direction) + 1]
-            
+
 
     def turnLeft(self):
         # Turn Left logic for the Rover (opposite of right turn logic)
@@ -83,21 +82,18 @@ class Rover(object):
         # Move Forward
 
         if self.direction == "N":
-            self.y = self.y + 1   
+            self.y = self.y + 1
         elif self.direction == "S":
-            self.y = self.y - 1                         
+            self.y = self.y - 1
         elif self.direction == "E":
             self.x = self.x + 1
-         
+
         elif self.direction == "W":
             self.x = self.x - 1
         else:
             self.rover_to_intial_position()
-            raise ValueError('ERROR: Incorrect directional value, Rover sent back to initial position')               
+            raise ValueError('ERROR: Incorrect directional value, Rover sent back to initial position')
         for area in self.landingArea.taken:
             if self.get_current_position() == (area[0], area[1]):
-                self.rover_to_intial_position()                
+                self.rover_to_intial_position()
                 raise ValueError('ERROR: Position taken, Rover sent back to intial position!\n Try again!')
-
-
-
