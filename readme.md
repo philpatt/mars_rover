@@ -1,6 +1,6 @@
 # Mars Rover Tech Challenge -- Python
   ### Prompt: 
-  [Mars Rover Tech Challenge Prompt](https://code.google.com/archive/p/marsrovertechchallenge/)  
+  [Mars Rover Tech Challenge](https://code.google.com/archive/p/marsrovertechchallenge/)  
 
   ## Install Python
   * run `brew install python3` in your console
