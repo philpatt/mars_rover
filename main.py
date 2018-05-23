@@ -60,7 +60,7 @@ def is_landing_area_input_valid(user_input):
         return False
     else:
         print('\n-------------------------------------------------')
-        print('Error: Landing Area can only be values! Try again')
+        print('Error: Landing Area can only be numbers! Try again')
         print('-------------------------------------------------')
         return False
 
@@ -78,15 +78,16 @@ def is_landing_area_input_valid(user_input):
 
 def get_intial_rover_position_input(landing_area):
     # Here is where we create a Rover Object attached to the Landing Area Object
-    # We also check too see if the input is 'report' or 'exit', if so, => See userInputCheck()
+        # 1. make sure input is intergers
+        # 2. Make sure rover in bounds
+        # 3. Make sure rover not in landing are taken array
+        # We also check too see if the input is 'report' or 'exit'
 
     while True:
         rover_position_prompt = "\n--------------\n** Enter a Rover's starting position and direction, separated by spaces.\n* Or enter 'report' to get Rover Report.\n* Or enter: 'end' to terminate:\n--------------\n=> "
 
         rover_input = user_input_check(input(rover_position_prompt),landing_area).split(' ')
-        # 1. make sure input is intergers
-        # 2. Make sure in bounds
-        # 3. Make sure not in landing are taken array
+
         try:
             if 'report' not in rover_input and is_rover_input_valid(rover_input) and is_rover_inbounds(rover_input, landing_area) and is_rover_position_taken(rover_input, landing_area):
                 rover_x = int(rover_input[0])
@@ -94,8 +95,6 @@ def get_intial_rover_position_input(landing_area):
                 rover_direction = rover_input[2].upper()
                 rover = create_rover(rover_x, rover_y, rover_direction,landing_area)
                 return rover
-            else:
-                print('no rover')
         except Exception as err:
             print(err)
             continue
@@ -104,8 +103,7 @@ def get_intial_rover_position_input(landing_area):
 
 def is_rover_input_valid(user_input):
 
-    if len(user_input) == 3 and user_input[0].isdigit() and user_input[1].isdigit() and user_input[2] in compass:
-        print('valid')
+    if len(user_input) == 3 and user_input[0].isdigit() and user_input[1].isdigit() and user_input[2].upper() in compass:
         return True
     elif len(user_input) > 3:
         print('\n--------------------------------------------')
@@ -120,8 +118,7 @@ def is_rover_input_valid(user_input):
     return True
 
 def is_rover_position_taken(user_input,landing_area):
-    rover = [user_input[0],user_input[1]]
-    print('hello',landing_area)
+    rover = int(user_input[0]),int(user_input[1])
     if len(landing_area.taken) > 0:
         for area in landing_area.taken:
             if rover == (area[0], area[1]):
@@ -129,7 +126,6 @@ def is_rover_position_taken(user_input,landing_area):
                 print('ERROR: Position taken! Try another position')
                 print('--------------------------------------------')
                 return False
-    print('not taken')
     return True
 
 def is_rover_inbounds(coordinates, boundary):
@@ -146,7 +142,6 @@ def is_rover_inbounds(coordinates, boundary):
         print('ERROR: Y Coordinate out of range! Try again!')
         print('--------------------------------------------')
         return False
-    print('inbounds')
     return True
 
 
