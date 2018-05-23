@@ -67,34 +67,36 @@ class create_rover(object):
 
     def move_forward(self, landing_area):
         # Move Forward and check to see if that is space is available.
-        new_move = self.get_current_position()
-        print('current move:',new_move)
+        new_position = self.get_current_position()
 
         if self.direction == "N":
-            print('move North')
-            new_mov[1] += 1
+            new_position[1] += 1
         elif self.direction == "S":
-            print('move South')
-            new_move[1] -= 1
+            new_position[1] -= 1
         elif self.direction == "E":
-            print('move East')
-            new_move[0] += 1
+            new_position[0] += 1
         elif self.direction == "W":
-            print('move West')
-            new_move[0] -= 1
+            new_position[0] -= 1
         else:
             raise ValueError('ERROR: Incorrect directional value, Rover sent back to initial position')
 
-        print('new move:', new_move)
-
         # Check if out of bounds or occupied by other rovers
-        self.check_move(new_move[0], new_move[1], landing_area)
-        self.x = new_move[0]
-        self.y = new_move[1]
+        if self.check_move(new_position[0], new_position[1], landing_area):
+            self.x = new_position[0]
+            self.y = new_position[1]
+        else:
+            return False
 
-    def check_move(self, move_x, move_y, landing_area):
-        if move_x < 0 or move_y < 0 or move_x >= landing_area.x or move_y >= landing_area.y:
-            raise ValueError('ERROR: Trying to drive off cliff')
+    def check_move(self, position_x, position_y, landing_area):
+        if position_x < 0 or position_y < 0 or position_x >= landing_area.x or position_y >= landing_area.y:
+            print('\n---------------------------')
+            print('Almost drove out of bounds!\nRover landed at intial position!')
+            print('----------------------------')
+            return False
         for area in landing_area.taken:
-            if self.get_current_position() == (area[0], area[1]):
-                raise ValueError('ERROR: Position taken!\n Try again!')
+            if (position_x, position_y) == (area[0], area[1]):
+                print('\n---------------------------')
+                print('Position taken!\nRover landed at intial position!')
+                print('----------------------------')
+                return False
+        return True

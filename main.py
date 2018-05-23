@@ -19,13 +19,14 @@ def main():
     landing_area = get_landing_area()
 
     #2 - Acquire Rovers to land
-    acquiring_and_landing_rovers = True
+    acquiring_rovers = True
 
-    while acquiring_and_landing_rovers:
+    while acquiring_rovers:
         # Instantiate Rover
         rover = get_intial_rover_position_input(landing_area)
         # Attempt to land Rover on Landing Area
         land_rover(rover, landing_area)
+
 
 
 def get_landing_area():
@@ -78,10 +79,10 @@ def is_landing_area_input_valid(user_input):
 
 def get_intial_rover_position_input(landing_area):
     # Here is where we create a Rover Object attached to the Landing Area Object
-        # 1. make sure input is intergers
-        # 2. Make sure rover in bounds
-        # 3. Make sure rover not in landing are taken array
-        # We also check too see if the input is 'report' or 'exit'
+    # 1. make sure input is intergers
+    # 2. Make sure rover in bounds
+    # 3. Make sure rover not in landing are taken array
+    # We also check too see if the input is 'report' or 'exit'
 
     while True:
         rover_position_prompt = "\n--------------\n** Enter a Rover's starting position and direction, separated by spaces.\n* Or enter 'report' to get Rover Report.\n* Or enter: 'end' to terminate:\n--------------\n=> "
@@ -97,7 +98,7 @@ def get_intial_rover_position_input(landing_area):
                 return rover
         except Exception as err:
             print(err)
-            continue
+            # continue
 
 
 
@@ -164,7 +165,6 @@ def land_rover(rover,landing_area):
     command_sequence_prompt = "\n--------------\nPlease enter a sequence of commands:\nOnly use 'L','R','M' or 'end' to terminate\n--------------\n=> "
     try:
         commands = user_input_check(input(command_sequence_prompt), landing_area).upper()
-
         if 'REPORT' not in commands and is_command_sequence_valid(commands):
             navigate(commands, rover, landing_area)
             # If commands are determined valid and the rover object is updated, another check comes to determine
@@ -173,19 +173,25 @@ def land_rover(rover,landing_area):
                 moved = True
     except Exception as err:
         print(err)
-    if moved:
-        print('\n------------------------------------')
-        print('~~~~~~ Rover Landing Success! ~~~~~~')
-        print('------------------------------------')
 
+
+    if moved:
+        print('\n-----------------------------')
+        print('~~~~~~ Rover Landed ! ~~~~~~')
+        print('----------------------------')
+
+        is_landing_area_full(landing_area)
         show_rover_report(landing_area)
         return
 
 def is_command_sequence_valid(commands):
+    print('length of commnands',len(commands))
+    if len(commands) <= 0:
+        print('=======================================')
+        print('No command sequence entered. Try Again!')
+        print('\n=====================================')
+        return False
     for command in commands:
-        # if command == '':
-        #     print('No command sequence entered')
-        #     return False
         if command not in navigation_commands:
             print('\n----------------------------------------')
             print("Command Sequence Value Error:")
@@ -193,7 +199,6 @@ def is_command_sequence_valid(commands):
             print("Rover Crashed! Attempt New Rover!")
             print('----------------------------------------')
             return False
-
     return True
 
 def navigate(commands, rover, landing_area):
@@ -224,6 +229,13 @@ def show_rover_report(landing_area):
     for rover in landing_area.taken:
         print("{} {} {}".format(rover[0],rover[1],rover[2]))
     print('-----------------------')
+
+def is_landing_area_full(landing_area):
+    landing_area_size = int(landing_area.x + 1) * int(landing_area.y + 1)
+    # print('how big is this thang',landing_area_size)
+    if len(landing_area.taken) >= landing_area_size:
+        show_rover_report(landing_area)
+        sys.exit()
 
 if __name__ == "__main__":
     main()
