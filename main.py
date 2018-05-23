@@ -177,7 +177,6 @@ def is_command_sequence_valid(commands):
             print('\n----------------------------------------')
             print("Command Sequence Value Error:")
             print(command,": not available in Navigation Commands.")
-            print("Rover Crashed! Attempt New Rover!")
             print('----------------------------------------')
             return False
     return True
