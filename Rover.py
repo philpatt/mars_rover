@@ -1,27 +1,18 @@
-
 compass = ["N", "E", "S", "W"]
-navigationCommands = ["L","R","M"]
+navigation_commands = ["L","R","M"]
 
-class CreateRover(object):
+class create_rover(object):
     #Each Rover that is created will have access to all of these functions, the compass, and Navigation Commands and the created Landing Area
 
-
-    def __init__(self, x, y, direction, landingArea):
+    def __init__(self, x, y, direction, landing_area):
         self.x = x
-        if (self.x < 0 or self.x > landingArea.x): # Since each rover has access to the Landing Area, we can start by making sure the Rovers initial x and y position is in the landing area.
-            raise ValueError('Rover out of landing area, try again!')
-            return
         self.y = y
-        if (self.y < 0 or self.y > landingArea.y): #
-            raise ValueError('Rover out of landing area, try again!')
-            return
         self.direction = direction
-        self.landingArea = landingArea
         self.initial = (self.x, self.y, self.direction)
 
-    def getCurrentPosition(self):
+    def get_current_position(self):
         # This function allow the rover to access its current position at any point after it is instantiated.
-        return (self.x, self.y,)
+        return [self.x, self.y]
 
     def rover_to_intial_position(self):
         # When this function is called the rover will be returned to its intial position
@@ -29,24 +20,24 @@ class CreateRover(object):
         self.y = self.initial[1]
         self.direction = self.initial[2]
 
-    def xPositionCheck(self, landingArea):
+    def x_position_check(self, landing_area):
         # This function is used during navigation. After the Rover uses navigate to turn left, turn right, and move forward, this checks the x value to make sure it is within the landing area dimensions.
-        if (self.x < 0 or self.x > landingArea.x):
+        if (self.x < 0 or self.x > landing_area.x):
             self.rover_to_intial_position()
             raise ValueError('\nRover out of landing area, and lost in space!\n Try another Rover!')
         else:
             return True
 
-    def yPositionCheck(self, landingArea):
+    def y_position_check(self, landing_area):
         # This function is used during navigation. After the Rover uses navigate to turn left, turn right, and move forward, this checks the y value to make sure it is within the landing area dimensions.
 
-        if (self.y < 0 or self.y > landingArea.y):
+        if (self.y < 0 or self.y > landing_area.y):
             self.rover_to_intial_position()
             raise ValueError('\nRover out of landing area, and lost in space!\n Try another Rover!')
         else:
             return True
 
-    def directionPositionCheck(self, landingArea):
+    def direction_position_check(self):
         # This function is used during navigation. After the Rover uses navigate to turn left, turn right, and move forward, this checks the directional value to make sure it is a direciton that the Compass .
 
         if self.direction.upper() not in compass:
@@ -55,40 +46,55 @@ class CreateRover(object):
         else:
             return True
 
-    def turnRight(self):
+    def turn_right(self):
         # If the Rover's direction matches the compass' direction at position 3 ('W' - West), then change the Rover's direction to "N"-North(compass[0]).
         # If the Rover's direction is not 'W'-West, then change the Rover's Direction to the compass direction that is associated with the Rover's direction and increase by 1.
 
-        if compass.index(self.direction) == 3:
+        if compass.index(self.direction) >= 3:
             self.direction = compass[0]
-
         else:
             self.direction = compass[compass.index(self.direction) + 1]
 
 
-    def turnLeft(self):
+    def turn_left(self):
         # if the Rovers direction matches the compasses direction at position 0 ('N' - North), then change the Rover's direction to "W"-West(compass[3]).
         # if the Rover's direction is not 'N'-North, then change the Rover's Direction to the compass direction that is associated with the Rover's direction and decrease by 1.
 
-        if compass.index(self.direction) == 0:
+        if compass.index(self.direction) <= 0:
             self.direction = compass[3]
         else:
             self.direction = compass[compass.index(self.direction) - 1]
 
-    def moveForward(self, landingArea):
+    def move_forward(self, landing_area):
         # Move Forward and check to see if that is space is available.
+        new_move = self.get_current_position()
+        print('current move:',new_move)
+
         if self.direction == "N":
-            self.y = self.y + 1
+            print('move North')
+            new_mov[1] += 1
         elif self.direction == "S":
-            self.y = self.y - 1
+            print('move South')
+            new_move[1] -= 1
         elif self.direction == "E":
-            self.x = self.x + 1
+            print('move East')
+            new_move[0] += 1
         elif self.direction == "W":
-            self.x = self.x - 1
+            print('move West')
+            new_move[0] -= 1
         else:
-            # self.rover_to_intial_position()
             raise ValueError('ERROR: Incorrect directional value, Rover sent back to initial position')
 
-        for area in self.landingArea.taken:
-            if self.getCurrentPosition() == (area[0], area[1]):
+        print('new move:', new_move)
+
+        # Check if out of bounds or occupied by other rovers
+        self.check_move(new_move[0], new_move[1], landing_area)
+        self.x = new_move[0]
+        self.y = new_move[1]
+
+    def check_move(self, move_x, move_y, landing_area):
+        if move_x < 0 or move_y < 0 or move_x >= landing_area.x or move_y >= landing_area.y:
+            raise ValueError('ERROR: Trying to drive off cliff')
+        for area in landing_area.taken:
+            if self.get_current_position() == (area[0], area[1]):
                 raise ValueError('ERROR: Position taken!\n Try again!')

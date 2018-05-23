@@ -1,8 +1,7 @@
 import unittest
 from Mars import *
 
-
-
+# Goal for these tests is to make sure that if the user input is valid, the Mars Landing Area object is created successfully
 class MarsTests(unittest.TestCase):
 
     def testCreateMarsLandingAreaCoordinateInput(self):
