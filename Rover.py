@@ -85,18 +85,19 @@ class create_rover(object):
             self.x = new_position[0]
             self.y = new_position[1]
         else:
-            return False
+            self.rover_to_intial_position()
+            raise ValueError
 
     def check_move(self, position_x, position_y, landing_area):
         if position_x < 0 or position_y < 0 or position_x >= landing_area.x or position_y >= landing_area.y:
             print('\n---------------------------')
-            print('Almost drove out of bounds!\nRover landed at intial position!')
+            print('Almost drove out of bounds!\n Rover return to intial position!')
             print('----------------------------')
             return False
         for area in landing_area.taken:
             if (position_x, position_y) == (area[0], area[1]):
                 print('\n---------------------------')
-                print('Position taken!\nRover landed at intial position!')
+                print('Crashed into rover at,',area,'!\nRover return to intial position!')
                 print('----------------------------')
                 return False
         return True

@@ -96,9 +96,8 @@ def get_intial_rover_position_input(landing_area):
                 rover_direction = rover_input[2].upper()
                 rover = create_rover(rover_x, rover_y, rover_direction,landing_area)
                 return rover
-        except Exception as err:
-            print(err)
-            # continue
+        except ValueError:
+            print('Error 1')
 
 
 
@@ -163,16 +162,21 @@ def land_rover(rover,landing_area):
 
     moved = False
     command_sequence_prompt = "\n--------------\nPlease enter a sequence of commands:\nOnly use 'L','R','M' or 'end' to terminate\n--------------\n=> "
-    try:
-        commands = user_input_check(input(command_sequence_prompt), landing_area).upper()
-        if 'REPORT' not in commands and is_command_sequence_valid(commands):
-            navigate(commands, rover, landing_area)
-            # If commands are determined valid and the rover object is updated, another check comes to determine
+    while not moved:
+        try:
+            commands = user_input_check(input(command_sequence_prompt), landing_area).upper()
+            if 'REPORT' not in commands and is_command_sequence_valid(commands):
+                navigate(commands, rover, landing_area)
+                # print('navigating...')
+                # If commands are determined valid and the rover object is updated, another check comes to determine
+            else:
+                raise ValueError
+
             if (rover.y_position_check(landing_area) and rover.x_position_check(landing_area) and rover.direction_position_check()):# Here is where the rover checks if the landing coordinates are acceptable
                 landing_area.taken.append([rover.x, rover.y, rover.direction])
                 moved = True
-    except Exception as err:
-        print(err)
+        except ValueError:
+            print('Rover back to', rover.initial)
 
 
     if moved:
@@ -185,12 +189,12 @@ def land_rover(rover,landing_area):
         return
 
 def is_command_sequence_valid(commands):
-    print('length of commnands',len(commands))
     if len(commands) <= 0:
         print('=======================================')
         print('No command sequence entered. Try Again!')
         print('\n=====================================')
         return False
+
     for command in commands:
         if command not in navigation_commands:
             print('\n----------------------------------------')
@@ -199,24 +203,24 @@ def is_command_sequence_valid(commands):
             print("Rover Crashed! Attempt New Rover!")
             print('----------------------------------------')
             return False
+
     return True
 
 def navigate(commands, rover, landing_area):
 
     # After a 'Move Forward' request is made, the rover checks to see if that space is occupied.
     # If space is NOT occupied, then the rover Object is updated and moves on in the landRover() process.
-    try:
-        for command in commands:
-            if command == navigation_commands[0]:
-                rover.turn_left()  # => see Rover.py for more details
-            elif command == navigation_commands[1]:
-                rover.turn_right()  # => see Rover.py for more details
-            elif command == navigation_commands[2]:
-                rover.move_forward(landing_area)  # => see Rover.py for more details
-            else:
-                raise ValueError('Incorrect directional value')
-    except Exception as err:
-        raise err
+    for command in commands:
+        if command == navigation_commands[0]:
+            rover.turn_left() # => see Rover.py for more details
+        elif command == navigation_commands[1]:
+            rover.turn_right() # => see Rover.py for more details
+        elif command == navigation_commands[2]:
+            rover.move_forward(landing_area) # => see Rover.py for more details
+        else:
+            return False
+    return True
+
 
 def show_rover_report(landing_area):
     # The Rover Report prints the taken Landing Area list, it also is shown after each succesful landing
@@ -232,7 +236,6 @@ def show_rover_report(landing_area):
 
 def is_landing_area_full(landing_area):
     landing_area_size = int(landing_area.x + 1) * int(landing_area.y + 1)
-    # print('how big is this thang',landing_area_size)
     if len(landing_area.taken) >= landing_area_size:
         show_rover_report(landing_area)
         sys.exit()
