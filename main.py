@@ -1,4 +1,4 @@
-# no rover created on bad input
+¬¬# no rover created on bad input
 # bad input 1: cannot land on another rover
 # bad input 2: cannot land out of bounds
 # exit if landing pad full
