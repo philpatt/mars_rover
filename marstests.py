@@ -5,9 +5,9 @@ from Mars import *
 class mars_tests(unittest.TestCase):
 
     def test_create_mars_landing_area_coordinate_input(self):
-        landingArea = create_mars_landing_area(5, 5)
-        x = landingArea.x
-        y = landingArea.y
+        landing_area = create_mars_landing_area(5, 5)
+        x = landing_area.x
+        y = landing_area.y
         landing_area_coordinates = str(x) + " " + str(y)
         expected_landing_area_coordinates = "5 5"
         self.assertEqual(landing_area_coordinates, expected_landing_area_coordinates)
